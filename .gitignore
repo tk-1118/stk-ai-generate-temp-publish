@@ -2,5 +2,7 @@ node_modules
 dist
 build
 *.log
-.env
+*.tgz
+.idea
+.vscode
 .DS_Store

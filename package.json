@@ -1,0 +1,36 @@
+{
+  "name": "ai-generate-template-latest",
+  "version": "0.0.3",
+  "description": "前端项目模板",
+  "scripts": {
+    
+  },
+  "bin": {
+    "ai-generate-template": "scripts/create.js"
+  },
+  "keywords": [
+    "template",
+    "frontend",
+    "ai"
+  ],
+  "author": "stk",
+  "license": "MIT",
+  "files": [
+    "template",
+    "scripts",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/ocdboy/ai-generate-temp.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "fs-extra": "^11.3.1"
+  }
+}

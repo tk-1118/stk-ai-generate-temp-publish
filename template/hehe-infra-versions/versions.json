@@ -1,0 +1,47 @@
+{
+  "infraPeers": {
+    "vue": "^3.5.22",
+    "vue-router": "^4.5.1",
+    "pinia": "^3.0.3",
+    "element-plus": "^2.11.2",
+    "axios": "^1.12.2"
+  },
+  "devExact": {
+    "vue": "^3.5.21",
+    "vue-router": "^4.5.1",
+    "pinia": "^3.0.3",
+    "element-plus": "^2.11.2",
+    "axios": "^1.12.2",
+    "vite": "^7.1.5",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "vite-plugin-dts": "^4.5.4",
+    "typescript": "^5.9.2",
+    "sass": "^1.92.1",
+    "mockjs": "^1.1.0",
+    "@types/mockjs": "^1.0.10"
+  },
+  "overrides": {
+    "vue": "^3.5.22",
+    "vue-router": "^4.5.1",
+    "pinia": "^3.0.3",
+    "element-plus": "^2.11.2",
+    "axios": "^1.12.2",
+    "vite": "^7.1.5",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "vite-plugin-dts": "^4.5.4",
+    "typescript": "^5.9.2",
+    "sass": "^1.92.1",
+    "mockjs": "^1.1.0",
+    "@types/mockjs": "^1.0.10"
+  },
+  "banned": [
+    "normalize.css",
+    "reset.css",
+    "fs",
+    "path",
+    "crypto",
+    "vue-i18n",
+    "@sentry/vue",
+    "@sentry/browser"
+  ]
+}

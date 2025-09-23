@@ -1,0 +1,63 @@
+{
+  "name": "hehe-product-foo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Foo 产品",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --strictPort --port 5011",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
+    "axios": "^1.12.2",
+    "element-plus": "^2.11.2",
+    "hehe-shared": "^0.1.5",
+    "hehe-theme": "^0.1.4",
+    "hehe-ui-components": "^1.1.3",
+    "mockjs": "^1.1.0",
+    "pinia": "^3.0.3",
+    "vue": "^3.5.21",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@types/mockjs": "^1.0.10",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vue/tsconfig": "^0.7.0",
+    "axios": "^1.12.2",
+    "element-plus": "^2.11.2",
+    "mockjs": "^1.1.0",
+    "pinia": "^3.0.3",
+    "sass": "^1.92.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5",
+    "vite-plugin-dts": "^4.5.4",
+    "vue": "^3.5.21",
+    "vue-router": "^4.5.1",
+    "vue-tsc": "^3.0.5"
+  },
+  "overrides": {
+    "vue": "^3.5.21",
+    "vue-router": "^4.5.1",
+    "pinia": "^3.0.3",
+    "element-plus": "^2.11.2",
+    "axios": "^1.12.2",
+    "vite": "^7.1.5",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "vite-plugin-dts": "^4.5.4",
+    "typescript": "^5.9.2",
+    "sass": "^1.92.1",
+    "mockjs": "^1.1.0",
+    "@types/mockjs": "^1.0.10"
+  },
+  "peerDependencies": {
+    "axios": "^1.12.2",
+    "element-plus": "^2.11.2",
+    "pinia": "^3.0.3",
+    "vue": "^3.5.22",
+    "vue-router": "^4.5.1"
+  },
+  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
+}

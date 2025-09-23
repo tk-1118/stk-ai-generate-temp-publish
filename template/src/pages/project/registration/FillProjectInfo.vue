@@ -245,7 +245,7 @@
           <el-form-item label="项目建议书" prop="projectProposal">
             <el-upload
               class="upload-demo"
-              action="/api/project/register/uploadApprovalFile"
+              :action="uploadActionUrl"
               :on-preview="handleFilePreview"
               :on-remove="handleFileRemove"
               :before-remove="beforeFileRemove"
@@ -266,7 +266,7 @@
           <el-form-item label="可行性研究" prop="feasibilityStudy">
             <el-upload
               class="upload-demo"
-              action="/api/project/register/uploadApprovalFile"
+              :action="uploadActionUrl"
               :on-preview="handleFilePreview"
               :on-remove="handleFileRemove"
               :before-remove="beforeFileRemove"
@@ -287,7 +287,7 @@
           <el-form-item label="初步设计" prop="preliminaryDesign">
             <el-upload
               class="upload-demo"
-              action="/api/project/register/uploadApprovalFile"
+              :action="uploadActionUrl"
               :on-preview="handleFilePreview"
               :on-remove="handleFileRemove"
               :before-remove="beforeFileRemove"
@@ -308,7 +308,7 @@
           <el-form-item label="核准备案文件" prop="approvalDocument">
             <el-upload
               class="upload-demo"
-              action="/api/project/register/uploadApprovalFile"
+              :action="uploadActionUrl"
               :on-preview="handleFilePreview"
               :on-remove="handleFileRemove"
               :before-remove="beforeFileRemove"
@@ -385,7 +385,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -410,6 +410,13 @@ import type {
 // 路由
 const router = useRouter()
 const route = useRoute()
+
+// 动态上传路径（支持 Mock 与代理模式）
+const uploadActionUrl = computed(() => {
+  const useProxy = import.meta.env.VITE_USE_PROXY === 'true'
+  const mockPrefix = useProxy ? '/mock' : '/api'
+  return `${mockPrefix}/project/register/uploadApprovalFile`
+})
 
 // 表单引用
 const basicFormRef = ref<FormInstance>()

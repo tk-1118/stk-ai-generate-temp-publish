@@ -101,12 +101,50 @@ fetch('/mock/user/info')  // 使用 Mock 数据
 fetch('/api/user/list')   // 使用真实接口
 ```
 
+### 场景 4：前端页面动态路径适配
+前端页面组件自动适配不同模式的接口路径：
+
+```vue
+<template>
+  <!-- 文件上传组件自动适配路径 -->
+  <el-upload :action="uploadActionUrl" />
+  
+  <!-- API 测试按钮 -->
+  <el-button @click="testApi">测试接口</el-button>
+</template>
+
+<script setup>
+import { computed } from 'vue'
+
+// 动态上传路径
+const uploadActionUrl = computed(() => {
+  const useProxy = import.meta.env.VITE_USE_PROXY === 'true'
+  const mockPrefix = useProxy ? '/mock' : '/api'
+  return `${mockPrefix}/project/register/uploadApprovalFile`
+})
+
+// 动态 API 前缀
+const apiPrefix = computed(() => {
+  const useProxy = import.meta.env.VITE_USE_PROXY === 'true'
+  return useProxy ? '/mock' : '/api'
+})
+
+const testApi = async () => {
+  // 自动使用正确的前缀
+  const res = await http.get(`${apiPrefix.value}/error/auth`)
+}
+</script>
+```
+
 ## 🛠️ 开发建议
 
 1. **开发初期**：使用纯 Mock 模式进行前端开发
 2. **接口联调**：切换到代理模式，逐步替换 Mock 接口
 3. **问题排查**：可以快速切换模式对比接口行为
 4. **团队协作**：不同开发者可以使用不同模式
+5. **前端适配**：页面组件使用 `computed` 动态获取接口前缀，避免硬编码路径
+6. **文件上传**：使用 `:action="uploadActionUrl"` 而不是硬编码的 `action="/api/..."`
+7. **API 测试**：测试页面使用动态前缀，确保在不同模式下都能正常工作
 
 ## 📋 环境变量参考
 

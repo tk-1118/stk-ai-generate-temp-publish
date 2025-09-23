@@ -164,10 +164,29 @@ interface ProjectLegalPersonItem {
 - `VITE_USE_PROXY=false`: 纯 Mock 模式，所有接口使用 `/api` 前缀
 - `VITE_USE_PROXY=true`: 代理模式，真实接口使用 `/api` 前缀，Mock 接口使用 `/mock` 前缀
 
+### 前端页面动态适配
+前端页面组件会根据环境变量自动调整接口路径：
+
+```typescript
+// 文件上传组件动态路径
+const uploadActionUrl = computed(() => {
+  const useProxy = import.meta.env.VITE_USE_PROXY === 'true'
+  const mockPrefix = useProxy ? '/mock' : '/api'
+  return `${mockPrefix}/project/register/uploadApprovalFile`
+})
+
+// API 测试动态前缀
+const apiPrefix = computed(() => {
+  const useProxy = import.meta.env.VITE_USE_PROXY === 'true'
+  return useProxy ? '/mock' : '/api'
+})
+```
+
 ### 数据一致性保证
 1. **类型定义**: API 类型定义与 Vue 页面使用的数据结构完全一致
 2. **字段映射**: Mock 数据字段名与真实接口返回字段名保持一致
 3. **数据格式**: 所有日期、数字等格式与真实接口保持一致
+4. **路径适配**: 前端页面自动适配不同模式的接口路径
 
 ---
 
@@ -184,13 +203,19 @@ interface ProjectLegalPersonItem {
 
 1. **新增接口时**: 
    - 先定义 TypeScript 类型
-   - 创建对应的 Mock 数据
+   - 创建对应的 Mock 数据，使用 `getMockPrefix()` 获取动态前缀
    - 确保与 Vue 页面使用方式一致
 
 2. **修改接口时**:
    - 同时更新 API 类型定义和 Mock 数据
    - 检查 Vue 页面中的字段使用是否需要调整
 
-3. **调试技巧**:
+3. **前端页面开发**:
+   - 使用 `computed` 动态获取接口前缀，避免硬编码
+   - 文件上传组件使用 `:action="uploadActionUrl"`
+   - API 测试功能使用动态前缀 `${apiPrefix.value}/...`
+
+4. **调试技巧**:
    - 使用浏览器控制台查看接口返回数据
    - 对比 Mock 数据和真实接口数据的差异
+   - 观察控制台 Mock 模式提示：`[Mock] 使用路径前缀: /api (纯Mock模式)` 或 `[Mock] 使用路径前缀: /mock (代理模式)`

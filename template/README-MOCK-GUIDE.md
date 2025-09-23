@@ -214,8 +214,10 @@ Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/user\\/\\d+`), 'get', 
 ### 复杂业务场景 Mock
 
 ```typescript
+const mockPrefix = getMockPrefix(); // 🆕 支持代理模式
+
 // 文件上传 Mock（来自实际项目）
-Mock.mock('/api/project/register/uploadApprovalFile', 'post', (options: any) => {
+Mock.mock(`${mockPrefix}/project/register/uploadApprovalFile`, 'post', (options: any) => {
   try {
     // 模拟文件上传处理
     console.log('上传项目审批文件:', options);
@@ -226,7 +228,7 @@ Mock.mock('/api/project/register/uploadApprovalFile', 'post', (options: any) => 
 });
 
 // 带查询参数的 Mock
-Mock.mock('/api/project/register/getFundList', 'get', (options: any) => {
+Mock.mock(`${mockPrefix}/project/register/getFundList`, 'get', (options: any) => {
   try {
     const url = new URL(options.url, 'http://localhost');
     const projectId = url.searchParams.get('projectId');
@@ -244,6 +246,31 @@ Mock.mock('/api/project/register/getFundList', 'get', (options: any) => {
     return mockError('GET_FUND_LIST_ERROR', '获取项目资金构成列表失败', 500);
   }
 });
+```
+
+### 前端页面中的动态路径使用
+
+```typescript
+// Vue 组件中使用动态上传路径
+import { computed } from 'vue'
+
+const uploadActionUrl = computed(() => {
+  const useProxy = import.meta.env.VITE_USE_PROXY === 'true'
+  const mockPrefix = useProxy ? '/mock' : '/api'
+  return `${mockPrefix}/project/register/uploadApprovalFile`
+})
+
+// 在模板中使用
+// <el-upload :action="uploadActionUrl" ...>
+
+// API 测试页面中使用动态前缀
+const apiPrefix = computed(() => {
+  const useProxy = import.meta.env.VITE_USE_PROXY === 'true'
+  return useProxy ? '/mock' : '/api'
+})
+
+// 测试接口调用
+const res = await http.get(`${apiPrefix.value}/error/auth`)
 ```
 
 ## 测试场景

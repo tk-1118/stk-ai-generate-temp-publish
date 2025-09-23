@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { http } from '@/api/http';
 import { pickData } from '@/api/types';
 import { ElMessage } from 'element-plus';
@@ -97,6 +97,12 @@ import {
 const loading = ref(false);
 const result = ref<any>(null);
 
+// 动态 API 前缀（支持 Mock 与代理模式）
+const apiPrefix = computed(() => {
+  const useProxy = import.meta.env.VITE_USE_PROXY === 'true'
+  return useProxy ? '/mock' : '/api'
+});
+
 async function testSuccess() {
   loading.value = true;
   try {
@@ -115,7 +121,7 @@ async function testSuccess() {
 async function testError() {
   loading.value = true;
   try {
-    const res = await http.get<any>('/api/nonexistent');
+    const res = await http.get<any>(`${apiPrefix.value}/nonexistent`);
     result.value = res;
   } catch (error) {
     console.error('测试错误响应失败:', error);
@@ -127,7 +133,7 @@ async function testError() {
 async function testTimeout() {
   loading.value = true;
   try {
-    const res = await http.get<any>('/api/timeout', {}, { timeout: 1000 });
+    const res = await http.get<any>(`${apiPrefix.value}/timeout`, {}, { timeout: 1000 });
     result.value = res;
   } catch (error) {
     console.error('测试超时失败:', error);
@@ -170,7 +176,7 @@ async function testMockSuccess() {
 async function testMockAuth() {
   loading.value = true;
   try {
-    const res = await http.get<any>('/api/error/auth');
+    const res = await http.get<any>(`${apiPrefix.value}/error/auth`);
     result.value = res;
   } catch (error) {
     console.error('Mock 权限错误测试失败:', error);
@@ -182,7 +188,7 @@ async function testMockAuth() {
 async function testMockServer() {
   loading.value = true;
   try {
-    const res = await http.get<any>('/api/error/server');
+    const res = await http.get<any>(`${apiPrefix.value}/error/server`);
     result.value = res;
   } catch (error) {
     console.error('Mock 服务器错误测试失败:', error);
@@ -194,7 +200,7 @@ async function testMockServer() {
 async function testMockBusiness() {
   loading.value = true;
   try {
-    const res = await http.get<any>('/api/error/business');
+    const res = await http.get<any>(`${apiPrefix.value}/error/business`);
     result.value = res;
   } catch (error) {
     console.error('Mock 业务错误测试失败:', error);

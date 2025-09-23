@@ -404,7 +404,7 @@ body {
 
 ### Mock 数据规范
 
-参考 [README-MOCK-GUIDE.md](./README-MOCK-GUIDE.md) 了解完整的 Mock 数据开发规范。
+参考 [README-MOCK-GUIDE.md](./README-MOCK-GUIDE.md, ./README-MOCK-PROXY-GUIDE.md) 了解完整的 Mock 数据开发规范。
 
 ### Mock 与代理共存配置
 

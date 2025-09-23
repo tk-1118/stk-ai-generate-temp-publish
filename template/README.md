@@ -13,7 +13,7 @@ Hehe Product Foo 是一个现代化的前端应用，采用 Vue 3 + TypeScript �
 - 📦 **微前端支持**: 可独立运行或集成到 Shell Platform
 - 🔧 **工程化配置**: 完整的构建、测试、部署流程
 - 🌈 **主题系统**: 支持多主题切换
-- 🔌 **Mock 系统**: 完整的数据模拟支持，支持与真实接口代理共存
+- 🔌 **Mock 系统**: 完整的数据模拟支持，支持与真实接口代理共存，内置详细的控制台日志记录
 - 📡 **API 标准化**: 统一的 API 响应格式和错误处理
 - 🔒 **权限管理**: 完整的认证授权体系
 - 🧭 **动态菜单系统**: 基于配置的智能菜单生成和权限控制
@@ -103,6 +103,7 @@ hehe-product-foo/
 ├── README-API-STRUCTURE-MAPPING.md # 接口数据结构对照表
 ├── README-MOCK-GUIDE.md          # Mock 数据指南
 ├── README-MOCK-PROXY-GUIDE.md    # Mock 与代理共存配置指南
+├── README-MOCK-LOG.md            # Mock 请求日志功能说明
 ├── README-THEME.md               # 主题指南
 ├── package.json                  # 项目依赖配置
 └── vite.config.ts                # Vite 构建配置（支持环境变量控制代理）
@@ -404,7 +405,10 @@ body {
 
 ### Mock 数据规范
 
-参考 [README-MOCK-GUIDE.md](./README-MOCK-GUIDE.md, ./README-MOCK-PROXY-GUIDE.md) 了解完整的 Mock 数据开发规范。
+参考以下文档了解完整的 Mock 数据开发规范：
+- [README-MOCK-GUIDE.md](./README-MOCK-GUIDE.md) - Mock 数据指南
+- [README-MOCK-PROXY-GUIDE.md](./README-MOCK-PROXY-GUIDE.md) - Mock 与代理共存配置指南  
+- [README-MOCK-LOG.md](./README-MOCK-LOG.md) - Mock 请求日志功能说明
 
 ### Mock 与代理共存配置
 

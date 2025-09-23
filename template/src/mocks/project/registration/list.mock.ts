@@ -1,6 +1,6 @@
 import Mock from 'mockjs'
 import { ok } from '@/api/types'
-import { getMockPrefix } from '@/mocks/mock-utils'
+import { getMockPrefix, logMockRequest } from '@/mocks/mock-utils'
 import type { ProjectListItem } from '@/api/project/registration/list'
 
 const mockPrefix = getMockPrefix();
@@ -45,13 +45,19 @@ Mock.mock(listUrl, 'post', (options: any) => {
     const total = 47 // 模拟总条数
     const records = generateMockProjects(size)  // Vue 页面从 records 字段获取数据
     
-    return ok({
+    const response = ok({
       records,
       total
     })
+    
+    // 记录请求日志
+    logMockRequest(options, response)
+    return response
   } catch (error) {
     console.error('获取项目登记列表失败:', error)
-    return ok({ records: [], total: 0 })
+    const errorResponse = ok({ records: [], total: 0 })
+    logMockRequest(options, errorResponse)
+    return errorResponse
   }
 })
 
@@ -62,9 +68,13 @@ Mock.mock(`${mockPrefix}/projectregistration/registrationprojectbiz/registration
     console.log('删除项目登记请求参数:', body)
     
     // 模拟删除成功
-    return ok(null)
+    const response = ok(null)
+    logMockRequest(options, response)
+    return response
   } catch (error) {
     console.error('删除项目登记失败:', error)
-    return ok(null)
+    const errorResponse = ok(null)
+    logMockRequest(options, errorResponse)
+    return errorResponse
   }
 })

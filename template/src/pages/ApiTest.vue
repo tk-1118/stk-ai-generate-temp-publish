@@ -38,6 +38,35 @@
         
         <div class="test-section">
           <h4>
+            <el-icon><Monitor /></el-icon>
+            Mock 日志测试
+          </h4>
+          <div class="test-buttons">
+            <el-button type="primary" @click="testMockLog" :loading="loading">
+              <el-icon><View /></el-icon>
+              测试 Mock 日志
+            </el-button>
+            <el-button type="success" @click="testUserInfo" :loading="loading">
+              <el-icon><User /></el-icon>
+              获取用户信息
+            </el-button>
+            <el-button type="info" @click="testUserLogin" :loading="loading">
+              <el-icon><Key /></el-icon>
+              用户登录测试
+            </el-button>
+          </div>
+          <el-alert 
+            title="提示：请打开浏览器控制台查看 Mock 请求日志" 
+            type="info" 
+            :closable="false"
+            style="margin-top: 12px;"
+          />
+        </div>
+        
+        <el-divider />
+        
+        <div class="test-section">
+          <h4>
             <el-icon><DataBoard /></el-icon>
             Mock 数据测试
           </h4>
@@ -91,7 +120,11 @@ import {
   Lock, 
   Warning, 
   InfoFilled, 
-  Document 
+  Document,
+  Monitor,
+  View,
+  User,
+  Key
 } from '@element-plus/icons-vue';
 
 const loading = ref(false);
@@ -152,6 +185,66 @@ async function testPickData() {
   } catch (error: any) {
     result.value = { error: error.message };
     ElMessage.error(`pickData 测试失败: ${error.message}`);
+  } finally {
+    loading.value = false;
+  }
+}
+
+// Mock 日志测试
+async function testMockLog() {
+  loading.value = true;
+  try {
+    ElMessage.info('正在测试 Mock 日志功能，请查看控制台...');
+    
+    // 连续发送多个请求以展示日志效果
+    const requests = [
+      http.get<any>(`${apiPrefix.value}/user/info`),
+      http.get<any>('/foo/list'),
+      http.get<any>(`${apiPrefix.value}/detail/123`),
+    ];
+    
+    const results = await Promise.all(requests);
+    result.value = {
+      message: '已发送3个Mock请求，请查看控制台日志',
+      requests: results.length
+    };
+    
+    ElMessage.success('Mock 日志测试完成！请查看控制台输出');
+  } catch (error) {
+    console.error('Mock 日志测试失败:', error);
+  } finally {
+    loading.value = false;
+  }
+}
+
+async function testUserInfo() {
+  loading.value = true;
+  try {
+    const res = await http.get<any>(`${apiPrefix.value}/user/info`);
+    result.value = res;
+    if (res.success) {
+      ElMessage.success('获取用户信息成功！');
+    }
+  } catch (error) {
+    console.error('获取用户信息失败:', error);
+  } finally {
+    loading.value = false;
+  }
+}
+
+async function testUserLogin() {
+  loading.value = true;
+  try {
+    const res = await http.post<any>(`${apiPrefix.value}/user/login`, {
+      username: 'test',
+      password: '123456'
+    });
+    result.value = res;
+    if (res.success) {
+      ElMessage.success('用户登录成功！');
+    }
+  } catch (error) {
+    console.error('用户登录失败:', error);
   } finally {
     loading.value = false;
   }

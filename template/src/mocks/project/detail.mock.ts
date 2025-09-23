@@ -39,10 +39,10 @@ Mock.mock(`${mockPrefix}/projectregistration/registrationprojectbiz/registration
       projectList: [projectDetail]
     }
   
-  return mockSuccess(response, '获取项目详情成功')
+  return mockSuccess(response, '获取项目详情成功', options)
   } catch (error) {
     console.error('获取项目详情失败:', error)
-    return mockSuccess(null, '获取项目详情失败')
+    return mockSuccess(null, '获取项目详情失败', options)
   }
 })
 
@@ -51,9 +51,9 @@ Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/project\\/detail\\/\\d
   try {
     const body = JSON.parse(options.body || '{}')
     console.log('更新项目详情请求参数:', body)
-    return mockSuccess(null, '更新项目详情成功')
+    return mockSuccess(null, '更新项目详情成功', options)
   } catch (error) {
     console.error('更新项目详情失败:', error)
-    return mockSuccess(null, '更新项目详情失败')
+    return mockSuccess(null, '更新项目详情失败', options)
   }
 })

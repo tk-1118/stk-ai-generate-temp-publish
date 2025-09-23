@@ -4,25 +4,40 @@
 
 Mock 数据已全面改造为统一的 `ApiResult<T>` 格式，与真实 API 响应保持一致。项目支持 Mock 数据与真实接口代理的灵活共存，通过环境变量进行智能切换。
 
+### 🆕 Mock 请求日志功能
+
+由于 `mockjs` 直接在 JavaScript 层面拦截请求，浏览器的 Network 面板无法看到这些请求。为了解决这个问题，我们新增了详细的控制台日志记录功能，让你能够清楚地看到所有被 Mock 拦截的请求信息，包括：
+
+- 请求方法、URL、时间戳
+- HTTP 状态码和状态文本  
+- 请求体和响应数据
+- 模拟的网络耗时
+- 美观的控制台输出格式
+
+详细使用方法请参考 [README-MOCK-LOG.md](./README-MOCK-LOG.md)。
+
 ## 核心文件
 
 ### 1. `src/mocks/mock-utils.ts` - Mock 工具函数
 提供标准化的 Mock 响应创建工具：
 
 ```typescript
-// 成功响应
-mockSuccess(data, msg) // 返回 ApiResult<T>
+// 成功响应（自动记录日志）
+mockSuccess(data, msg, options) // 返回 ApiResult<T>，自动记录请求日志
 
-// 失败响应
-mockError(errorCode, msg, code) // 返回失败的 ApiResult
+// 失败响应（自动记录日志）
+mockError(errorCode, msg, code, options) // 返回失败的 ApiResult，自动记录请求日志
 
-// 预设错误
-mockAuthError()      // 401 权限错误
-mockForbiddenError() // 403 无权限错误
-mockServerError()    // 500 服务器错误
+// 预设错误（自动记录日志）
+mockAuthError(options)      // 401 权限错误，自动记录日志
+mockForbiddenError(options) // 403 无权限错误，自动记录日志
+mockServerError(options)    // 500 服务器错误，自动记录日志
 
 // 🆕 获取 Mock 路径前缀（支持代理模式）
 getMockPrefix()      // 根据环境变量返回 '/api' 或 '/mock'
+
+// 🆕 Mock 请求日志记录
+logMockRequest(options, response) // 记录详细的请求日志到控制台
 ```
 
 ### 2. `src/mocks/index.ts` - 通用 Mock 数据和注册中心
@@ -152,24 +167,24 @@ pnpm dev  # 真实接口使用 /api 前缀，Mock 接口使用 /mock 前缀
 
 ## 使用方式
 
-### 创建新的 Mock 接口（支持代理模式）
+### 创建新的 Mock 接口（支持代理模式和日志记录）
 
 ```typescript
 import { mockSuccess, mockError, getMockPrefix } from './mock-utils';
 
 const mockPrefix = getMockPrefix(); // 🆕 获取动态前缀
 
-Mock.mock(`${mockPrefix}/your-endpoint`, 'get', () => {
-  // 成功场景
+Mock.mock(`${mockPrefix}/your-endpoint`, 'get', (options: any) => {
+  // 成功场景（自动记录日志）
   return mockSuccess({
     id: Mock.mock('@id'),
     name: Mock.mock('@cname')
-  }, '操作成功');
+  }, '操作成功', options); // 🆕 传递 options 参数用于日志记录
 });
 
-Mock.mock(`${mockPrefix}/error-endpoint`, 'get', () => {
-  // 失败场景
-  return mockError('YOUR_ERROR_CODE', '自定义错误信息', 400);
+Mock.mock(`${mockPrefix}/error-endpoint`, 'get', (options: any) => {
+  // 失败场景（自动记录日志）
+  return mockError('YOUR_ERROR_CODE', '自定义错误信息', 400, options); // 🆕 传递 options 参数
 });
 ```
 
@@ -182,13 +197,13 @@ Mock.mock(`${mockPrefix}/login`, 'post', (options: any) => {
   const body = JSON.parse(options.body || '{}');
   
   if (!body.username || !body.password) {
-    return mockError('LOGIN_INVALID', '用户名或密码不能为空', 400);
+    return mockError('LOGIN_INVALID', '用户名或密码不能为空', 400, options); // 🆕 传递 options
   }
   
   return mockSuccess({
     token: Mock.mock('@guid'),
     userInfo: { /* ... */ }
-  }, '登录成功');
+  }, '登录成功', options); // 🆕 传递 options 用于日志记录
 });
 ```
 
@@ -201,13 +216,13 @@ Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/user\\/\\d+`), 'get', 
   const id = options.url.match(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/user\\/(\\d+)`))?.[1];
   
   if (!id) {
-    return mockError('USER_NOT_FOUND', '用户不存在', 404);
+    return mockError('USER_NOT_FOUND', '用户不存在', 404, options); // 🆕 传递 options
   }
   
   return mockSuccess({
     id: parseInt(id),
     name: Mock.mock('@cname')
-  }, '获取用户详情成功');
+  }, '获取用户详情成功', options); // 🆕 传递 options 用于日志记录
 });
 ```
 
@@ -216,14 +231,14 @@ Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/user\\/\\d+`), 'get', 
 ```typescript
 const mockPrefix = getMockPrefix(); // 🆕 支持代理模式
 
-// 文件上传 Mock（来自实际项目）
+// 文件上传 Mock（来自实际项目，自动记录日志）
 Mock.mock(`${mockPrefix}/project/register/uploadApprovalFile`, 'post', (options: any) => {
   try {
     // 模拟文件上传处理
     console.log('上传项目审批文件:', options);
-    return mockSuccess(null, '上传成功');
+    return mockSuccess(null, '上传成功', options); // 🆕 传递 options 用于日志记录
   } catch (error) {
-    return mockError('UPLOAD_APPROVAL_FILE_ERROR', '上传项目审批文件失败', 500);
+    return mockError('UPLOAD_APPROVAL_FILE_ERROR', '上传项目审批文件失败', 500, options); // 🆕 传递 options
   }
 });
 
@@ -241,9 +256,9 @@ Mock.mock(`${mockPrefix}/project/register/getFundList`, 'get', (options: any) =>
         fundAmount: '1000000',
         fundRatio: '40'
       }
-    ], '获取成功');
+    ], '获取成功', options); // 🆕 传递 options 用于日志记录
   } catch (error) {
-    return mockError('GET_FUND_LIST_ERROR', '获取项目资金构成列表失败', 500);
+    return mockError('GET_FUND_LIST_ERROR', '获取项目资金构成列表失败', 500, options); // 🆕 传递 options
   }
 });
 ```
@@ -286,7 +301,9 @@ const res = await http.get(`${apiPrefix.value}/error/auth`)
 - `/api/error/business` - 400 业务错误
 
 ### 在测试页面验证
-访问 `/api-test` 页面，点击 "Mock 数据测试" 按钮组验证各种场景。
+访问 `/api-test` 页面，使用以下功能验证各种场景：
+- **Mock 数据测试** 按钮组：验证各种响应场景
+- **Mock 日志测试** 按钮组：测试日志记录功能，请打开浏览器控制台查看详细的请求日志
 
 ## 错误码规范
 
@@ -324,11 +341,13 @@ const res = await http.get(`${apiPrefix.value}/error/auth`)
 - 为不同场景提供对应的错误码
 - 添加有意义的提示信息
 - 模拟真实的参数验证逻辑
+- 🆕 **传递 `options` 参数**：确保所有 Mock 函数都接收 `options` 参数并传递给响应函数，以启用日志记录功能
 
 ### ❌ 禁止做法
 - 直接返回原始对象，不符合 ApiResult 格式
 - 使用无意义的错误码或提示
 - 忽略参数验证逻辑
+- 🆕 **忘记传递 `options` 参数**：这会导致无法记录请求日志，影响开发调试体验
 
 ## 与真实 API 的兼容性
 
@@ -380,10 +399,12 @@ if (import.meta.env.VITE_FEATURE_MOCK === 'true') {
 - 🆕 **动态路径前缀**: 自动适配不同开发模式
 - 🆕 **接口数据结构同步**: 与 Vue 页面使用完全一致
 - 🆕 **真实接口路径对接**: 支持复杂的 RESTful API 路径
+- 🆕 **详细的请求日志**: 解决了 mockjs 无法在 Network 面板查看请求的问题
 
 ## 相关文档
 
 - [README-MOCK-PROXY-GUIDE.md](./README-MOCK-PROXY-GUIDE.md) - Mock 与代理共存详细配置指南
+- [README-MOCK-LOG.md](./README-MOCK-LOG.md) - Mock 请求日志功能详细说明
 - [README-API-STRUCTURE-MAPPING.md](./README-API-STRUCTURE-MAPPING.md) - 接口数据结构对照表
 
 这确保了开发阶段的数据格式与生产环境完全一致，并支持灵活的开发模式切换，大大提高了开发效率和代码质量。

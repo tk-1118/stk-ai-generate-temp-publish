@@ -1,10 +1,15 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig(({ mode, command }) => {
+  // 加载环境变量
+  const env = loadEnv(mode, process.cwd(), '');
+  
   // 根据环境变量决定是否启用代理
-  const enableProxy = process.env.VITE_USE_PROXY === 'true';
+  const enableProxy = env.VITE_USE_PROXY === 'true';
+  
+  console.log( enableProxy, env.VITE_USE_PROXY);
   
   return {
     base: "./",

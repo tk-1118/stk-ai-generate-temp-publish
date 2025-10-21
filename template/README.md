@@ -69,7 +69,7 @@ hehe-product-foo/
 │   │   └── MenuDemo.vue          # 菜单演示组件
 │   ├── composables/              # 组合式函数
 │   │   └── useMenu.ts            # 菜单管理组合函数
-│   ├── config/                   # 配置文件
+│   ├── config/                   # 配置文件 （新建的页面组件需添加到这里，不然菜单不会显示）
 │   │   └── menu.ts               # 动态菜单配置
 │   ├── layouts/                  # 布局组件
 │   │   └── Layout.vue            # 主布局组件
@@ -88,7 +88,7 @@ hehe-product-foo/
 │   │   ├── Detail.vue            # 详情页面
 │   │   ├── Home.vue              # 首页
 │   │   └── MenuDemo.vue          # 菜单演示页面
-│   ├── router/                   # 路由配置
+│   ├── router/                   # 路由配置 （新建的页面组件需在此注册，不然会404）
 │   │   ├── guards.ts             # 路由守卫
 │   │   └── index.ts              # 路由配置
 │   ├── store/                    # 状态管理

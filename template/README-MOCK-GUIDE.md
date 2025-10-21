@@ -41,31 +41,31 @@ logMockRequest(options, response) // 记录详细的请求日志到控制台
 ```
 
 ### 2. `src/mocks/index.ts` - 通用 Mock 数据和注册中心
-- 用户信息：`/api/user/info`
-- 产品详情：`/api/detail/:id`
+- 用户信息：`${mockPrefix}/user/info`
+- 产品详情：`${mockPrefix}/detail/:id`
 - 列表数据：`/foo/list`
-- 错误场景测试端点：`/api/error/*`
+- 错误场景测试端点：`${mockPrefix}/error/*`
 - **Mock 模块注册**：导入其他 Mock 文件（如 `./project/register/fillProjectInfo.mock`）
 
 ### 3. `src/mocks/user.mock.ts` - 用户相关 Mock
-- 登录：`/api/user/login` (支持错误模拟)
-- 登出：`/api/user/logout`
-- 用户列表：`/api/user/list`
-- 用户详情：`/api/user/:id`
+- 登录：`${mockPrefix}/user/login` (支持错误模拟)
+- 登出：`${mockPrefix}/user/logout`
+- 用户列表：`${mockPrefix}/user/list`
+- 用户详情：`${mockPrefix}/user/:id`
 
 ### 4. `src/mocks/project/` - 业务模块 Mock
 - **项目登记**：`registration/list.mock.ts`
-  - 项目列表：`POST /api/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistrationByPage`
-  - 项目删除：`POST /api/projectregistration/registrationprojectbiz/registrationproject/deleteProjectRegistration`
+  - 项目列表：`POST ${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistrationByPage`
+  - 项目删除：`POST ${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/deleteProjectRegistration`
 - **项目详情**：`detail.mock.ts`
-  - 项目详情：`POST /api/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistration`
+  - 项目详情：`POST ${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistration`
 - **项目注册**：`register/fillProjectInfo.mock.ts`
-  - 华能组织机构列表：`/api/project/register/getHuanengOrgList`
-  - 项目信息保存：`/api/project/register/saveBasicInfo`
-  - 法人信息保存：`/api/project/register/saveLegalInfo`
-  - 资金构成管理：`/api/project/register/getFundList`、`/api/project/register/saveFundInfo`
-  - 文件上传：`/api/project/register/importFundTemplate`、`/api/project/register/uploadApprovalFile`
-  - 项目提交：`POST /api/projectregistration/registrationprojectbiz/registrationproject/registerProject`
+  - 华能组织机构列表：`${mockPrefix}/project/register/getHuanengOrgList`
+  - 项目信息保存：`${mockPrefix}/project/register/saveBasicInfo`
+  - 法人信息保存：`${mockPrefix}/project/register/saveLegalInfo`
+  - 资金构成管理：`${mockPrefix}/project/register/getFundList`、`${mockPrefix}/project/register/saveFundInfo`
+  - 文件上传：`${mockPrefix}/project/register/importFundTemplate`、`${mockPrefix}/project/register/uploadApprovalFile`
+  - 项目提交：`POST ${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/registerProject`
 
 > **注意**：所有接口路径会根据 `VITE_USE_PROXY` 环境变量自动调整前缀（`/api` 或 `/mock`）
 
@@ -296,9 +296,9 @@ const res = await http.get(`${apiPrefix.value}/error/auth`)
 - 参数错误：不传用户名或密码
 
 ### 错误测试端点
-- `/api/error/auth` - 401 权限错误
-- `/api/error/server` - 500 服务器错误
-- `/api/error/business` - 400 业务错误
+- `${mockPrefix}/error/auth` - 401 权限错误
+- `${mockPrefix}/error/server` - 500 服务器错误
+- `${mockPrefix}/error/business` - 400 业务错误
 
 ### 在测试页面验证
 访问 `/api-test` 页面，使用以下功能验证各种场景：
@@ -400,11 +400,3 @@ if (import.meta.env.VITE_FEATURE_MOCK === 'true') {
 - 🆕 **接口数据结构同步**: 与 Vue 页面使用完全一致
 - 🆕 **真实接口路径对接**: 支持复杂的 RESTful API 路径
 - 🆕 **详细的请求日志**: 解决了 mockjs 无法在 Network 面板查看请求的问题
-
-## 相关文档
-
-- [README-MOCK-PROXY-GUIDE.md](./README-MOCK-PROXY-GUIDE.md) - Mock 与代理共存详细配置指南
-- [README-MOCK-LOG.md](./README-MOCK-LOG.md) - Mock 请求日志功能详细说明
-- [README-API-STRUCTURE-MAPPING.md](./README-API-STRUCTURE-MAPPING.md) - 接口数据结构对照表
-
-这确保了开发阶段的数据格式与生产环境完全一致，并支持灵活的开发模式切换，大大提高了开发效率和代码质量。

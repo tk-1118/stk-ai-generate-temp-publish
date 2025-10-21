@@ -10,11 +10,11 @@ export function useSetupGuards(router: Router) {
     }
     
     // 权限检查
-    if (to.meta?.auth && !getToken()) {
-      console.warn('未授权访问，跳转到首页');
-      next('/home');
-      return;
-    }
+    // if (to.meta?.auth && !getToken()) {
+    //   console.warn('未授权访问，跳转到首页');
+    //   next('/home');
+    //   return;
+    // }
     
     next();
   });

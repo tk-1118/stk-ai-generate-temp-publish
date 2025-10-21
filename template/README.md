@@ -100,10 +100,7 @@ hehe-product-foo/
 │   └── types/                    # 类型定义
 │       └── menu.ts               # 菜单类型定义
 ├── README-API-RESULT-GUIDE.md    # API 标准化指南
-├── README-API-STRUCTURE-MAPPING.md # 接口数据结构对照表
 ├── README-MOCK-GUIDE.md          # Mock 数据指南
-├── README-MOCK-PROXY-GUIDE.md    # Mock 与代理共存配置指南
-├── README-MOCK-LOG.md            # Mock 请求日志功能说明
 ├── README-THEME.md               # 主题指南
 ├── package.json                  # 项目依赖配置
 └── vite.config.ts                # Vite 构建配置（支持环境变量控制代理）
@@ -403,12 +400,10 @@ body {
 </style>
 ```
 
-### Mock 数据规范
+### Mock 数据规范 (强制执行：必须仔细阅读，并遵守此规范)
 
 参考以下文档了解完整的 Mock 数据开发规范：
 - [README-MOCK-GUIDE.md](./README-MOCK-GUIDE.md) - Mock 数据指南
-- [README-MOCK-PROXY-GUIDE.md](./README-MOCK-PROXY-GUIDE.md) - Mock 与代理共存配置指南  
-- [README-MOCK-LOG.md](./README-MOCK-LOG.md) - Mock 请求日志功能说明
 
 ### Mock 与代理共存配置
 
@@ -435,17 +430,9 @@ echo "VITE_USE_PROXY=true" > .env.development   # 代理模式
    - Mock 接口使用不同前缀：`/mock/*`
    - 适用于：联调真实接口、部分接口使用 Mock
 
-#### 详细配置指南
-
-参考 [README-MOCK-PROXY-GUIDE.md](./README-MOCK-PROXY-GUIDE.md) 了解详细的配置和使用方式。
-
-### API 规范
+### API 规范 (强制执行：必须仔细阅读，并遵守此规范)
 
 参考 [README-API-RESULT-GUIDE.md](./README-API-RESULT-GUIDE.md) 了解完整的 API 开发规范。
-
-### 接口数据结构对照
-
-参考 [README-API-STRUCTURE-MAPPING.md](./README-API-STRUCTURE-MAPPING.md) 了解接口数据结构与 Vue 页面的对应关系。
 
 ## 依赖管理
 

@@ -15,7 +15,7 @@ export function setupMock() {
   console.log(`[Mock] 使用路径前缀: ${mockPrefix}${useProxy ? ' (代理模式)' : ' (纯Mock模式)'}`);
   
   // 用户信息
-  Mock.mock(`${mockPrefix}/user/info`, 'get', (options: any) => {
+  Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/user\\/info.*`), 'get', (options: any) => {
     return mockSuccess({
       id: Mock.mock('@id'),
       name: Mock.mock('@cname'),
@@ -37,7 +37,7 @@ export function setupMock() {
   });
 
   // Foo 列表数据
-  Mock.mock('/foo/list', 'get', (options: any) => {
+  Mock.mock(new RegExp('\\/foo\\/list.*'), 'get', (options: any) => {
     const list = Mock.mock({
       'list|5-10': [{
         'id|+1': 1,
@@ -52,15 +52,15 @@ export function setupMock() {
   });
 
   // 模拟错误场景
-  Mock.mock(`${mockPrefix}/error/auth`, 'get', (options: any) => {
+  Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/error\\/auth.*`), 'get', (options: any) => {
     return mockAuthError(options);
   });
 
-  Mock.mock(`${mockPrefix}/error/server`, 'get', (options: any) => {
+  Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/error\\/server.*`), 'get', (options: any) => {
     return mockServerError(options);
   });
 
-  Mock.mock(`${mockPrefix}/error/business`, 'get', (options: any) => {
+  Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/error\\/business.*`), 'get', (options: any) => {
     return mockError('BIZ_10001', '业务逻辑错误', 400, options);
   });
   

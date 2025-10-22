@@ -5,14 +5,11 @@ import type { ProjectDetailResponse, ProjectDetailItem } from '@/api/project/reg
 const mockPrefix = getMockPrefix();
 
 // 模拟获取项目详情 - 匹配真实接口路径
-Mock.mock(`${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistration`, 'post', (options: any) => {
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/projectregistration\\/registrationprojectbiz\\/registrationproject\\/queryProjectRegistration.*`), 'post', (options: any) => {
   try {
     const body = JSON.parse(options.body || '{}')
     console.log('获取项目详情请求参数:', body)
     
-    const projectSNList = body.projectSNList || []
-    const projectSN = projectSNList[0] || 'default'
-  
     // 生成单个项目详情数据
     const projectDetail: ProjectDetailItem = {
       projectCode: `PROJ${Mock.mock('@integer(2020, 2025)')}${Mock.mock('@integer(100, 999)')}`,

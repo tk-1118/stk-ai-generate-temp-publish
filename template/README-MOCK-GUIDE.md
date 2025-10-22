@@ -14,8 +14,6 @@ Mock 数据已全面改造为统一的 `ApiResult<T>` 格式，与真实 API 响
 - 模拟的网络耗时
 - 美观的控制台输出格式
 
-详细使用方法请参考 [README-MOCK-LOG.md](./README-MOCK-LOG.md)。
-
 ## 核心文件
 
 ### 1. `src/mocks/mock-utils.ts` - Mock 工具函数
@@ -41,33 +39,59 @@ logMockRequest(options, response) // 记录详细的请求日志到控制台
 ```
 
 ### 2. `src/mocks/index.ts` - 通用 Mock 数据和注册中心
-- 用户信息：`${mockPrefix}/user/info`
-- 产品详情：`${mockPrefix}/detail/:id`
-- 列表数据：`/foo/list`
-- 错误场景测试端点：`${mockPrefix}/error/*`
+- 用户信息：`${mockPrefix}/user/info` (使用正则表达式匹配)
+- 产品详情：`${mockPrefix}/detail/:id` (使用正则表达式匹配)
+- 列表数据：`/foo/list` (使用正则表达式匹配)
+- 错误场景测试端点：`${mockPrefix}/error/*` (使用正则表达式匹配)
 - **Mock 模块注册**：导入其他 Mock 文件（如 `./project/register/fillProjectInfo.mock`）
 
 ### 3. `src/mocks/user.mock.ts` - 用户相关 Mock
-- 登录：`${mockPrefix}/user/login` (支持错误模拟)
-- 登出：`${mockPrefix}/user/logout`
-- 用户列表：`${mockPrefix}/user/list`
-- 用户详情：`${mockPrefix}/user/:id`
+- 登录：`${mockPrefix}/user/login` (使用正则表达式匹配，支持错误模拟)
+- 登出：`${mockPrefix}/user/logout` (使用正则表达式匹配)
+- 用户列表：`${mockPrefix}/user/list` (使用正则表达式匹配)
+- 用户详情：`${mockPrefix}/user/:id` (使用正则表达式匹配)
 
 ### 4. `src/mocks/project/` - 业务模块 Mock
 - **项目登记**：`registration/list.mock.ts`
-  - 项目列表：`POST ${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistrationByPage`
-  - 项目删除：`POST ${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/deleteProjectRegistration`
+  - 项目列表：`POST ${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistrationByPage` (使用正则表达式匹配)
+  - 项目删除：`POST ${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/deleteProjectRegistration` (使用正则表达式匹配)
 - **项目详情**：`detail.mock.ts`
-  - 项目详情：`POST ${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistration`
+  - 项目详情：`POST ${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistration` (使用正则表达式匹配)
 - **项目注册**：`register/fillProjectInfo.mock.ts`
-  - 华能组织机构列表：`${mockPrefix}/project/register/getHuanengOrgList`
-  - 项目信息保存：`${mockPrefix}/project/register/saveBasicInfo`
-  - 法人信息保存：`${mockPrefix}/project/register/saveLegalInfo`
-  - 资金构成管理：`${mockPrefix}/project/register/getFundList`、`${mockPrefix}/project/register/saveFundInfo`
-  - 文件上传：`${mockPrefix}/project/register/importFundTemplate`、`${mockPrefix}/project/register/uploadApprovalFile`
-  - 项目提交：`POST ${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/registerProject`
+  - 华能组织机构列表：`${mockPrefix}/project/register/getHuanengOrgList` (使用正则表达式匹配)
+  - 项目信息保存：`${mockPrefix}/project/register/saveBasicInfo` (使用正则表达式匹配)
+  - 法人信息保存：`${mockPrefix}/project/register/saveLegalInfo` (使用正则表达式匹配)
+  - 资金构成管理：`${mockPrefix}/project/register/getFundList` (使用正则表达式匹配)、`${mockPrefix}/project/register/saveFundInfo` (使用正则表达式匹配)
+  - 文件上传：`${mockPrefix}/project/register/importFundTemplate` (使用正则表达式匹配)、`${mockPrefix}/project/register/uploadApprovalFile` (使用正则表达式匹配)
+  - 项目提交：`POST ${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/registerProject` (使用正则表达式匹配)
 
 > **注意**：所有接口路径会根据 `VITE_USE_PROXY` 环境变量自动调整前缀（`/api` 或 `/mock`）
+
+## ⚠️ 重要规范：必须使用正则表达式
+
+**所有 Mock 接口都必须使用正则表达式的形式来编写 URL**，这是项目的强制要求：
+
+### ✅ 正确写法（推荐）
+```javascript
+// GET 请求 - 支持查询参数
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/api\\/path.*`), 'get', handler)
+
+// POST 请求 - 支持各种参数
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/api\\/path.*`), 'post', handler)
+```
+
+### ❌ 错误写法（禁止）
+```javascript
+// 字符串形式 - 不支持查询参数，容易出错
+Mock.mock(`${mockPrefix}/api/path`, 'get', handler)
+```
+
+### 为什么必须使用正则表达式？
+
+1. **支持查询参数**：GET 请求后面可能拼接参数（如 `?param=value&other=123`）
+2. **更好的兼容性**：可以处理各种 URL 变体和特殊情况
+3. **避免匹配失败**：字符串匹配在遇到查询参数时会失败
+4. **统一规范**：确保所有接口都有一致的匹配行为
 
 ## Mock 响应格式
 
@@ -174,7 +198,8 @@ import { mockSuccess, mockError, getMockPrefix } from './mock-utils';
 
 const mockPrefix = getMockPrefix(); // 🆕 获取动态前缀
 
-Mock.mock(`${mockPrefix}/your-endpoint`, 'get', (options: any) => {
+// ✅ 正确写法：使用正则表达式
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/your-endpoint.*`), 'get', (options: any) => {
   // 成功场景（自动记录日志）
   return mockSuccess({
     id: Mock.mock('@id'),
@@ -182,7 +207,7 @@ Mock.mock(`${mockPrefix}/your-endpoint`, 'get', (options: any) => {
   }, '操作成功', options); // 🆕 传递 options 参数用于日志记录
 });
 
-Mock.mock(`${mockPrefix}/error-endpoint`, 'get', (options: any) => {
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/error-endpoint.*`), 'get', (options: any) => {
   // 失败场景（自动记录日志）
   return mockError('YOUR_ERROR_CODE', '自定义错误信息', 400, options); // 🆕 传递 options 参数
 });
@@ -193,7 +218,8 @@ Mock.mock(`${mockPrefix}/error-endpoint`, 'get', (options: any) => {
 ```typescript
 const mockPrefix = getMockPrefix(); // 🆕 支持代理模式
 
-Mock.mock(`${mockPrefix}/login`, 'post', (options: any) => {
+// ✅ 正确写法：使用正则表达式
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/login.*`), 'post', (options: any) => {
   const body = JSON.parse(options.body || '{}');
   
   if (!body.username || !body.password) {
@@ -232,7 +258,8 @@ Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/user\\/\\d+`), 'get', 
 const mockPrefix = getMockPrefix(); // 🆕 支持代理模式
 
 // 文件上传 Mock（来自实际项目，自动记录日志）
-Mock.mock(`${mockPrefix}/project/register/uploadApprovalFile`, 'post', (options: any) => {
+// ✅ 正确写法：使用正则表达式
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/project\\/register\\/uploadApprovalFile.*`), 'post', (options: any) => {
   try {
     // 模拟文件上传处理
     console.log('上传项目审批文件:', options);
@@ -243,7 +270,8 @@ Mock.mock(`${mockPrefix}/project/register/uploadApprovalFile`, 'post', (options:
 });
 
 // 带查询参数的 Mock
-Mock.mock(`${mockPrefix}/project/register/getFundList`, 'get', (options: any) => {
+// ✅ 正确写法：使用正则表达式
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/project\\/register\\/getFundList.*`), 'get', (options: any) => {
   try {
     const url = new URL(options.url, 'http://localhost');
     const projectId = url.searchParams.get('projectId');
@@ -337,6 +365,7 @@ const res = await http.get(`${apiPrefix.value}/error/auth`)
 ## 开发规范
 
 ### ✅ 推荐做法
+- **必须使用正则表达式**：所有 Mock 接口都必须使用 `new RegExp()` 形式
 - 使用 `mockSuccess()` 和 `mockError()` 创建响应
 - 为不同场景提供对应的错误码
 - 添加有意义的提示信息
@@ -344,6 +373,7 @@ const res = await http.get(`${apiPrefix.value}/error/auth`)
 - 🆕 **传递 `options` 参数**：确保所有 Mock 函数都接收 `options` 参数并传递给响应函数，以启用日志记录功能
 
 ### ❌ 禁止做法
+- **禁止使用字符串形式的 URL**：`Mock.mock('${mockPrefix}/api/path', ...)` 是错误的写法
 - 直接返回原始对象，不符合 ApiResult 格式
 - 使用无意义的错误码或提示
 - 忽略参数验证逻辑
@@ -400,3 +430,4 @@ if (import.meta.env.VITE_FEATURE_MOCK === 'true') {
 - 🆕 **接口数据结构同步**: 与 Vue 页面使用完全一致
 - 🆕 **真实接口路径对接**: 支持复杂的 RESTful API 路径
 - 🆕 **详细的请求日志**: 解决了 mockjs 无法在 Network 面板查看请求的问题
+- 🆕 **强制正则表达式规范**: 所有接口必须使用正则表达式，确保查询参数支持

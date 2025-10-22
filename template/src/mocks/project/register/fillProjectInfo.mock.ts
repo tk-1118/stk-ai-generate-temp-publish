@@ -7,7 +7,7 @@ const mockPrefix = getMockPrefix();
 // 如果后端提供了对应的真实接口，请相应更新这些路径
 
 // 获取华能组织机构列表
-Mock.mock(`${mockPrefix}/project/register/getHuanengOrgList`, 'get', (options: any) => {
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/project\\/register\\/getHuanengOrgList.*`), 'get', (options: any) => {
   return mockSuccess([
     '华能国际电力股份有限公司',
     '华能新能源股份有限公司',
@@ -40,7 +40,7 @@ Mock.mock(`${mockPrefix}/project/register/saveLegalInfo`, 'post', (options: any)
 })
 
 // 获取项目资金构成列表
-Mock.mock(`${mockPrefix}/project/register/getFundList`, 'get', (options: any) => {
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/project\\/register\\/getFundList.*`), 'get', (options: any) => {
   try {
     // 解析查询参数
     const url = new URL(options.url, 'http://localhost')

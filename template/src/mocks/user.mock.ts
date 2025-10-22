@@ -4,7 +4,7 @@ import { mockSuccess, mockError, getMockPrefix } from './mock-utils';
 const mockPrefix = getMockPrefix();
 
 // 用户相关 Mock 数据
-Mock.mock(`${mockPrefix}/user/login`, 'post', (options: any) => {
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/user\\/login.*`), 'post', (options: any) => {
   try {
     const body = JSON.parse(options.body || '{}');
     
@@ -33,12 +33,12 @@ Mock.mock(`${mockPrefix}/user/login`, 'post', (options: any) => {
   }
 });
 
-Mock.mock(`${mockPrefix}/user/logout`, 'post', (options: any) => {
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/user\\/logout.*`), 'post', (options: any) => {
   return mockSuccess(null, '退出成功', options);
 });
 
 // 用户列表（用于测试）
-Mock.mock(`${mockPrefix}/user/list`, 'get', (options: any) => {
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/user\\/list.*`), 'get', (options: any) => {
   const users = Mock.mock({
     'list|3-8': [{
       'id|+1': 1,

@@ -32,13 +32,12 @@ const generateMockProjects = (size: number): ProjectListItem[] => {
 // 模拟获取项目登记列表 - 匹配真实接口路径
 const listUrl = `${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistrationByPage`;
 console.log('[Mock] 注册项目列表接口 Mock 路径:', listUrl);
-Mock.mock(listUrl, 'post', (options: any) => {
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/projectregistration\\/registrationprojectbiz\\/registrationproject\\/queryProjectRegistrationByPage.*`), 'post', (options: any) => {
   try {
     const body = JSON.parse(options.body || '{}')
     console.log('[Mock] 获取项目登记列表请求参数:', body)
     console.log('[Mock] 请求 URL:', options.url)
     
-    const page = parseInt(body.page || '1')
     const size = parseInt(body.size || '10')
     
     // 生成模拟数据
@@ -62,7 +61,7 @@ Mock.mock(listUrl, 'post', (options: any) => {
 })
 
 // 模拟删除项目登记 - 匹配真实接口路径
-Mock.mock(`${mockPrefix}/projectregistration/registrationprojectbiz/registrationproject/deleteProjectRegistration`, 'post', (options: any) => {
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/projectregistration\\/registrationprojectbiz\\/registrationproject\\/deleteProjectRegistration.*`), 'post', (options: any) => {
   try {
     const body = JSON.parse(options.body || '{}')
     console.log('删除项目登记请求参数:', body)

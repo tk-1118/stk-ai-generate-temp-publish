@@ -152,35 +152,6 @@
   color: var(--color-text);
 }
 
-.admin-table {
-  background-color: var(--color-card-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-base);
-  overflow: hidden;
-}
-
-.admin-table-header {
-  background-color: var(--color-bg-secondary);
-  padding: var(--spacing-md);
-  border-bottom: 1px solid var(--color-border);
-  font-weight: 500;
-  color: var(--color-text);
-}
-
-.admin-table-row {
-  padding: var(--spacing-md);
-  border-bottom: 1px solid var(--color-border-light);
-  transition: background-color 0.2s ease;
-}
-
-.admin-table-row:hover {
-  background-color: var(--color-bg-secondary);
-}
-
-.admin-table-row:last-child {
-  border-bottom: none;
-}
-
 /* 状态标签 */
 .admin-status-tag {
   padding: 2px 8px;

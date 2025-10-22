@@ -5,7 +5,7 @@
       <div class="sidebar-header">
         <div class="logo">
           <img src="/favicon.svg" alt="Logo" class="logo-icon" />
-          <span v-if="!sidebarCollapsed" class="logo-text">标前准备</span>
+          <span v-if="!sidebarCollapsed" class="logo-text">示例产品</span>
         </div>
         <button 
           class="collapse-btn" 

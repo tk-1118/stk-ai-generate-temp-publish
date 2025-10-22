@@ -4,7 +4,7 @@
     <section class="hero-section">
       <div class="hero-content">
         <div class="hero-text">
-          <h1 class="hero-title">标前准备管理系统</h1>
+          <h1 class="hero-title">示例产品管理系统</h1>
           <h2 class="hero-subtitle">企业级产品介绍页</h2>
           <p class="hero-description">
             这是一个基于 Vue 3 + TypeScript 构建的产品介绍页面示例，

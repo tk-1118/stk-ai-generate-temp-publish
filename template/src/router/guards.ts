@@ -6,7 +6,7 @@ export function useSetupGuards(router: Router) {
   router.beforeEach((to, from, next) => {
     // 设置页面标题
     if (to.meta?.title) {
-      document.title = `${to.meta.title} - 标前准备`;
+      document.title = `${to.meta.title} - 示例产品`;
     }
     
     // 权限检查

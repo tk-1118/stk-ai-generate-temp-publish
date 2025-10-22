@@ -4,7 +4,7 @@ import { mapHttpError } from './error-map';
 import { ElMessage } from 'element-plus';
 
 const instance: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE,
+  baseURL: import.meta.env.VITE_API_BASE || '/api',
   timeout: 15000,
   withCredentials: true,
 });

@@ -48,10 +48,10 @@ export interface deleteProjectBody{
 export function getProjectList(
   data: ProjectListParams
 ): Promise<ApiResult<ProjectListResponse>> {
-  return http.post<ProjectListResponse>('/api/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistrationByPage', data)
+  return http.post<ProjectListResponse>('/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistrationByPage', data)
 }
 
 // 删除项目登记
 export function deleteProject(data: deleteProjectBody): Promise<ApiResult<null>> {
-  return http.post(`/api/projectregistration/registrationprojectbiz/registrationproject/deleteProjectRegistration`, data)
+  return http.post(`/projectregistration/registrationprojectbiz/registrationproject/deleteProjectRegistration`, data)
 }

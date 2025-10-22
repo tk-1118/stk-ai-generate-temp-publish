@@ -9,16 +9,14 @@
         class="search-form"
       >
         <!-- 简单搜索 -->
-        <el-row :gutter="20">
-          <el-col :span="6"></el-col>
-          <el-col :span="8">
+        <div class="search-container">
+          <div class="search-center">
             <el-input
               v-model="searchForm.projectName"
               placeholder="请输入项目名称或编号"
               clearable
+              class="search-input"
             />
-          </el-col>
-          <el-col :span="8">
             <div class="search-buttons">
               <el-button type="primary" @click="handleSearch">搜索</el-button>
               <el-button @click="handleReset">重置</el-button>
@@ -34,13 +32,13 @@
                 </el-icon>
               </el-button>
             </div>
-          </el-col>
-          <el-col :span="1">
+          </div>
+          <div class="create-button-container">
             <el-button type="primary" @click="handleCreateProject">
               新增项目登记
             </el-button>
-          </el-col>
-        </el-row>
+          </div>
+        </div>
 
         <!-- 高级搜索 -->
         <el-collapse-transition>
@@ -423,11 +421,77 @@ onMounted(() => {
     margin-bottom: 20px;
     
     .search-form {
-      .search-buttons {
+      .search-container {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 10px;
-        height: 100%;
+        gap: 20px;
+        min-height: 40px;
+        
+        .search-center {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          flex: 1;
+          justify-content: center;
+          
+          .search-input {
+            width: 300px;
+            min-width: 200px;
+          }
+          
+          .search-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+          }
+        }
+        
+        .create-button-container {
+          flex-shrink: 0;
+          min-width: fit-content;
+        }
+        
+        // 响应式设计
+        @media (max-width: 768px) {
+          flex-direction: column;
+          gap: 15px;
+          
+          .search-center {
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            
+            .search-input {
+              width: 100%;
+              max-width: 300px;
+            }
+            
+            .search-buttons {
+              justify-content: center;
+            }
+          }
+          
+          .create-button-container {
+            width: 100%;
+            text-align: center;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .search-center {
+            .search-buttons {
+              flex-direction: column;
+              width: 100%;
+              
+              .el-button {
+                width: 100%;
+                max-width: 200px;
+              }
+            }
+          }
+        }
       }
       
       .advanced-search {

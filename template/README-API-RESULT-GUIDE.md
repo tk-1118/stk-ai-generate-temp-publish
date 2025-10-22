@@ -45,7 +45,7 @@ interface UserInfo {
 
 // API 函数
 export function getUserInfo(): Promise<ApiResult<UserInfo>> {
-  return http.get<UserInfo>('/api/user/info');  // 实际项目中的端点
+  return http.get<UserInfo>('/user/info');  // 实际项目中的端点
 }
 
 // 组件中使用
@@ -69,7 +69,7 @@ import { pickData } from '@/api/types';
 // 列表页推荐写法（配合 useQuery 等）
 const loadUserList = async () => {
   try {
-    const result = await http.get<{list: UserInfo[]}>('/api/user/list');
+    const result = await http.get<{list: UserInfo[]}>('/user/list');
     const users = pickData(result);
     // 直接使用 users.list，失败会自动抛错
     userList.value = users.list;
@@ -97,18 +97,18 @@ const testPickData = async () => {
 
 ```typescript
 // 重试请求
-const res = await http.get('/api/data', {}, { 
+const res = await http.get('/data', {}, { 
   retry: 2, 
   retryDelayMs: 1000 
 });
 
 // 静默请求（不显示错误提示）
-const res = await http.post('/api/log', data, { 
+const res = await http.post('/log', data, { 
   silent: true 
 });
 
 // 自定义超时
-const res = await http.get('/api/slow', {}, { 
+const res = await http.get('/slow', {}, { 
   timeout: 30000 
 });
 
@@ -117,7 +117,7 @@ export function uploadApprovalFile(file: File, fileType: string): Promise<ApiRes
   const formData = new FormData();
   formData.append('file', file);
   formData.append('fileType', fileType);
-  return http.post<void>('/api/project/register/uploadApprovalFile', formData, {
+  return http.post<void>('/project/register/uploadApprovalFile', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   });
 }

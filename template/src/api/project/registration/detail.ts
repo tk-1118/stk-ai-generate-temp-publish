@@ -96,10 +96,10 @@ export interface projectDetailBody{
 
 // 获取项目详情
 export function getProjectDetail(data: projectDetailBody): Promise<ApiResult<ProjectDetailResponse>> {
-  return http.post<ProjectDetailResponse>(`/api/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistration`, data)
+  return http.post<ProjectDetailResponse>(`/projectregistration/registrationprojectbiz/registrationproject/queryProjectRegistration`, data)
 }
 
 // 更新项目详情
 export function updateProjectDetail(id: string, data: Partial<ProjectDetailResponse>): Promise<ApiResult<void>> {
-  return http.put<void>(`/api/project/detail/${id}`, data)
+  return http.put<void>(`/project/detail/${id}`, data)
 }

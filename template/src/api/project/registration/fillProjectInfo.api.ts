@@ -60,34 +60,34 @@ export interface SubmitProjectData {
 
 // 获取华能组织机构列表
 export function getHuanengOrgList(): Promise<ApiResult<OrgListItem[]>> {
-  return http.get<OrgListItem[]>('/api/project/register/getHuanengOrgList')
+  return http.get<OrgListItem[]>('/project/register/getHuanengOrgList')
 }
 
 // 保存项目基本信息
 export function saveBasicInfo(data: BasicInfoForm): Promise<ApiResult<void>> {
-  return http.post<void>('/api/project/register/saveBasicInfo', data)
+  return http.post<void>('/project/register/saveBasicInfo', data)
 }
 
 // 保存项目法人信息
 export function saveLegalInfo(data: LegalInfoForm): Promise<ApiResult<void>> {
-  return http.post<void>('/api/project/register/saveLegalInfo', data)
+  return http.post<void>('/project/register/saveLegalInfo', data)
 }
 
 // 获取项目资金构成列表
 export function getFundList(projectId: string): Promise<ApiResult<FundListItem[]>> {
-  return http.get<FundListItem[]>(`/api/project/register/getFundList?projectId=${projectId}`)
+  return http.get<FundListItem[]>(`/project/register/getFundList?projectId=${projectId}`)
 }
 
 // 保存项目资金构成信息
 export function saveFundInfo(projectId: string, data: FundInfoForm): Promise<ApiResult<void>> {
-  return http.post<void>(`/api/project/register/saveFundInfo?projectId=${projectId}`, data)
+  return http.post<void>(`/project/register/saveFundInfo?projectId=${projectId}`, data)
 }
 
 // 导入项目资金构成模板
 export function importFundTemplate(file: File): Promise<ApiResult<void>> {
   const formData = new FormData()
   formData.append('file', file)
-  return http.post<void>('/api/project/register/importFundTemplate', formData, {
+  return http.post<void>('/project/register/importFundTemplate', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   })
 }
@@ -97,12 +97,12 @@ export function uploadApprovalFile(file: File, fileType: string): Promise<ApiRes
   const formData = new FormData()
   formData.append('file', file)
   formData.append('fileType', fileType)
-  return http.post<void>('/api/project/register/uploadApprovalFile', formData, {
+  return http.post<void>('/project/register/uploadApprovalFile', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   })
 }
 
 // 提交项目登记
 export function submitProject(data: SubmitProjectData): Promise<ApiResult<void>> {
-  return http.post<void>('/api/projectregistration/registrationprojectbiz/registrationproject/registerProject', data)
+  return http.post<void>('/projectregistration/registrationprojectbiz/registrationproject/registerProject', data)
 }

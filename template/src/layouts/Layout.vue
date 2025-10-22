@@ -82,7 +82,7 @@
           </el-dropdown>
 
           <!-- 用户信息 -->
-          <el-dropdown trigger="click" @command="handleUserCommand">
+          <el-dropdown v-if="!isQiankun" trigger="click" @command="handleUserCommand">
             <div class="user-info">
               <el-avatar :size="32" :src="userInfo?.avatar">
                 <el-icon><User /></el-icon>
@@ -137,13 +137,14 @@ import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '@/store/user';
 import { useMenu } from '@/composables/useMenu';
 import MenuItemRenderer from '@/components/MenuItemRenderer.vue';
+import { qiankunWindow } from 'vite-plugin-qiankun/dist/helper';
 import { 
   User, 
   Setting, 
   SwitchButton, 
   ArrowDown,
-  Expand,
-  Fold,
+  // Expand,
+  // Fold,
   Sunny,
   Moon,
   Monitor
@@ -154,12 +155,13 @@ import { useTheme } from 'hehe-theme';
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
+const isQiankun = computed(() => qiankunWindow.__POWERED_BY_QIANKUN__);
 
 // 菜单管理
 const {
   menuState,
   filteredMenuItems,
-  activeMenuItem,
+  // activeMenuItem,
   activeMenuKey,
   openMenuKeys,
   toggleCollapsed,

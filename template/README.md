@@ -37,7 +37,7 @@ Hehe Product Foo 是一个现代化的前端应用，采用 Vue 3 + TypeScript �
 ### 项目结构
 
 ```
-hehe-product-foo/
+product-foo-prd/
 ├── hehe-infra-versions/          # 基础设施版本管理 (SSOT)
 │   ├── package.json
 │   └── versions.json             # 统一版本配置
@@ -62,8 +62,6 @@ hehe-product-foo/
 │   ├── auth/                     # 认证授权
 │   │   ├── permission.ts         # 权限管理
 │   │   └── token.ts              # Token 管理
-│   ├── bridge/                   # 微前端通信桥接
-│   │   └── index.ts              # iframe 通信
 │   ├── components/               # 通用组件
 │   │   ├── MenuItemRenderer.vue  # 动态菜单项渲染组件
 │   │   └── MenuDemo.vue          # 菜单演示组件
@@ -110,40 +108,40 @@ hehe-product-foo/
 
 ### 环境要求
 
-- Node.js >= 16.0.0
-- pnpm >= 8.0.0
+- Node.js >= 22.0.0
+- npm >= 10.0.0
 
 ### 快速开始
 
 ```bash
 # 1. 克隆项目
 git clone <repository-url>
-cd hehe-product-foo
+cd product-foo-prd
 
 # 2. 安装依赖 (会自动同步版本)
-pnpm install
+npm install
 
 # 3. 启动开发服务器
-pnpm dev
+npm dev
 
 # 4. 构建项目
-pnpm build
+npm build
 
 # 5. 类型检查
-pnpm typecheck
+npm typecheck
 
 # 6. 预览构建结果
-pnpm preview
+npm preview
 ```
 
 ### 开发脚本
 
 | 命令 | 说明 |
 |------|------|
-| `pnpm dev` | 启动开发服务器 |
-| `pnpm build` | 构建生产版本 |
-| `pnpm preview` | 预览构建结果 |
-| `pnpm typecheck` | TypeScript 类型检查 |
+| `npm dev` | 启动开发服务器 |
+| `npm build` | 构建生产版本 |
+| `npm preview` | 预览构建结果 |
+| `npm typecheck` | TypeScript 类型检查 |
 
 ## 开发规范
 
@@ -468,13 +466,13 @@ echo "VITE_USE_PROXY=true" > .env.development   # 代理模式
 node scripts/sync-hehe-infra-versions.cjs
 
 # 自动同步 (preinstall 钩子)
-pnpm install
+npm install
 ```
 
 ### 升级流程
 
 1. 修改 `hehe-infra-versions/versions.json`
-2. 运行 `pnpm install` 同步到 `package.json`
+2. 运行 `npm install` 同步到 `package.json`
 3. 测试功能完整性
 4. 提交版本更改
 
@@ -484,7 +482,7 @@ pnpm install
 
 ```bash
 # 构建
-pnpm build
+npm build
 
 # 部署到静态服务器
 cp -r dist/* /var/www/html/
@@ -579,63 +577,3 @@ describe('UserProfile', () => {
   })
 })
 ```
-
-## 故障排除
-
-### 常见问题
-
-1. **依赖版本冲突**
-   ```bash
-   # 清理依赖
-   rm -rf node_modules pnpm-lock.yaml
-   pnpm install
-   ```
-
-2. **类型错误**
-   ```bash
-   # 重新生成类型文件
-   pnpm typecheck
-   ```
-
-3. **构建失败**
-   ```bash
-   # 检查构建配置
-   pnpm build --debug
-   ```
-
-### 开发调试
-
-```typescript
-// 开发环境调试
-if (import.meta.env.DEV) {
-  console.log('调试信息:', data)
-  window.__DEBUG__ = { store, router }
-}
-```
-
-## 贡献指南
-
-### 提交规范
-
-使用 Conventional Commits 规范：
-
-```
-feat: 添加用户管理功能
-fix: 修复登录状态异常问题
-docs: 更新 API 文档
-style: 优化代码格式
-refactor: 重构用户服务
-test: 添加单元测试
-chore: 更新依赖版本
-```
-
-### Pull Request
-
-1. 创建功能分支: `git checkout -b feature/user-management`
-2. 提交变更: `git commit -m "feat: 添加用户管理功能"`
-3. 推送分支: `git push origin feature/user-management`
-4. 创建 Pull Request
-
-## 许可证
-
-本项目采用 MIT 许可证。详见 [LICENSE](./LICENSE) 文件。

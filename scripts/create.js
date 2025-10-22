@@ -26,8 +26,7 @@ fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
 
 // 安装依赖
 console.log(`正在安装依赖...`);
-execSync('npm install -g pnpm --force', { cwd: targetDir, stdio: 'inherit' });
-execSync('pnpm i', { cwd: targetDir, stdio: 'inherit' });
+execSync('npm install', { cwd: targetDir, stdio: 'inherit' });
 
 console.log(`✅ 项目 ${projectName} 创建成功！`);
 console.log(`📁 进入项目: cd ${projectName}`);

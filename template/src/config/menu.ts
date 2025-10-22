@@ -22,6 +22,14 @@ export const menuConfig: MenuConfig = {
       description: '系统首页，展示概览信息'
     },
     {
+      key: 'introduction',
+      title: '产品介绍',
+      path: '/introduction',
+      icon: Document,
+      order: 2,
+      description: '产品介绍页面'
+    },
+    {
       key: 'api-test',
       title: 'API 测试',
       path: '/api-test',

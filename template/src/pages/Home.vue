@@ -4,7 +4,7 @@
       <template #header>
         <div class="page-header">
           <h2>首页</h2>
-          <p>欢迎来到 Product Foo 管理系统</p>
+          <p>欢迎来到 标前准备管理系统</p>
         </div>
       </template>
       

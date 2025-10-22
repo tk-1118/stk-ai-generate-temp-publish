@@ -1,12 +1,12 @@
 import type { Router } from 'vue-router';
-import { getToken } from '@/auth/token';
+// import { getToken } from '@/auth/token';
 
 export function useSetupGuards(router: Router) {
   // 前置守卫：权限检查
   router.beforeEach((to, from, next) => {
     // 设置页面标题
     if (to.meta?.title) {
-      document.title = `${to.meta.title} - Product Foo`;
+      document.title = `${to.meta.title} - 标前准备`;
     }
     
     // 权限检查

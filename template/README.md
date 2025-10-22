@@ -327,7 +327,7 @@ export const menuConfig: MenuConfig = {
   path: "user-management",
   name: "user-management",
   component: () => import("@/pages/UserManagement.vue"),
-  meta: { title: "用户管理", auth: true }
+  meta: { title: "用户管理" }
 }
 
 // 3. 使用菜单组合函数

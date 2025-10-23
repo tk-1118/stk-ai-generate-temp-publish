@@ -29,6 +29,14 @@
 
 ## 使用方法
 
+### 重要说明：API 地址配置
+
+**所有接口地址无需添加 `/api` 前缀**，因为项目已在环境变量中配置了统一的 API 基础地址：
+
+- `VITE_API_BASE` 环境变量已包含 `/api` 前缀
+- HTTP 客户端会自动拼接完整地址
+- 开发者只需提供接口路径，如：`/user/info`、`/project/list` 等
+
 ### 基本 API 调用
 
 ```typescript
@@ -45,7 +53,7 @@ interface UserInfo {
 
 // API 函数
 export function getUserInfo(): Promise<ApiResult<UserInfo>> {
-  return http.get<UserInfo>('/user/info');  // 实际项目中的端点
+  return http.get<UserInfo>('/user/info');  // 实际项目中的端点（无需/api前缀，环境变量已配置）
 }
 
 // 组件中使用
@@ -69,7 +77,7 @@ import { pickData } from '@/api/types';
 // 列表页推荐写法（配合 useQuery 等）
 const loadUserList = async () => {
   try {
-    const result = await http.get<{list: UserInfo[]}>('/user/list');
+    const result = await http.get<{list: UserInfo[]}>('/user/list');  // 无需/api前缀
     const users = pickData(result);
     // 直接使用 users.list，失败会自动抛错
     userList.value = users.list;
@@ -83,7 +91,7 @@ const loadUserList = async () => {
 // 实际项目中的使用示例（来自 ApiTest.vue）
 const testPickData = async () => {
   try {
-    const res = await http.get<{ list: any[] }>('/foo/list');
+    const res = await http.get<{ list: any[] }>('/foo/list');  // 无需/api前缀
     const data = pickData(res); // 这里会抛错如果失败
     ElMessage.success('pickData 测试成功！');
     return data;
@@ -117,7 +125,7 @@ export function uploadApprovalFile(file: File, fileType: string): Promise<ApiRes
   const formData = new FormData();
   formData.append('file', file);
   formData.append('fileType', fileType);
-  return http.post<void>('/project/register/uploadApprovalFile', formData, {
+  return http.post<void>('/project/register/uploadApprovalFile', formData, {  // 无需/api前缀
     headers: { 'Content-Type': 'multipart/form-data' }
   });
 }
@@ -178,7 +186,7 @@ export function uploadApprovalFile(file: File, fileType: string): Promise<ApiRes
 
 访问 `/api-test` 页面可以测试各种场景：
 - 成功响应处理（`/foo/list` 端点）
-- 错误响应处理（`/api/nonexistent` 端点）  
+- 错误响应处理（`/nonexistent` 端点，无需/api前缀）  
 - 超时处理（自定义 timeout: 1000ms）
 - pickData 功能（自动抛错机制）
 - Mock 数据测试（权限、服务器、业务错误等）

@@ -74,10 +74,10 @@ logMockRequest(options, response) // 记录详细的请求日志到控制台
 ### ✅ 正确写法（推荐）
 ```javascript
 // GET 请求 - 支持查询参数
-Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/api\\/path.*`), 'get', handler)
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/path.*`), 'get', handler)
 
 // POST 请求 - 支持各种参数
-Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/api\\/path.*`), 'post', handler)
+Mock.mock(new RegExp(`${mockPrefix.replace('/', '\\/')}\\/path.*`), 'post', handler)
 ```
 
 ### ❌ 错误写法（禁止）

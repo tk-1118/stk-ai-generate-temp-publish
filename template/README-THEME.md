@@ -7,7 +7,7 @@
   --color-primary-light: #6686ff;
   --color-primary-dark: #2b4ed1;
   
-  /* 背景色系 - 以 #eff7ff 为主 */
+  /* 背景色系 - 以 #eff7ff 为主 */ (强制要求：不要用做element-plus的背景色， 以及表格搜索区域背景也不要用)
   --color-bg: #eff7ff;
   --color-bg-secondary: #e6f0ff;
   --color-bg-tertiary: #dde9ff;

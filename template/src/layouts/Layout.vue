@@ -1,7 +1,7 @@
 <template>
   <div class="layout-container">
     <!-- 左侧导航菜单 -->
-    <aside class="layout-sidebar" :class="{ collapsed: sidebarCollapsed }">
+    <aside v-if="!isQiankun" class="layout-sidebar" :class="{ collapsed: sidebarCollapsed }">
       <div class="sidebar-header">
         <div class="logo">
           <img src="/favicon.svg" alt="Logo" class="logo-icon" />

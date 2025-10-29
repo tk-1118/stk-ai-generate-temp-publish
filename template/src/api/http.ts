@@ -2,18 +2,23 @@ import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
 import { ok, fail, type ApiResult } from './types';
 import { mapHttpError } from './error-map';
 import { ElMessage } from 'element-plus';
-
+import { getToken } from '@/auth/token';
 const instance: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE || '/api',
+  baseURL: import.meta.env.VITE_API_BASE,
   timeout: 15000,
   withCredentials: true,
 });
 
 instance.interceptors.request.use(cfg => {
-  const token = localStorage.getItem('token');
+  // 固定请求头信息
+  cfg.headers['zz-requested-with'] = 'zzHttpRequest'
+  cfg.headers['authorization'] = 'Basic c2FiZXIzOnNhYmVyM19zZWNyZXQ='
+  // const token = localStorage.getItem('token');
+
+  const token = getToken()
   if (token) {
     cfg.headers = cfg.headers || {} as any;
-    cfg.headers['Authorization'] = `Bearer ${token}`;
+    cfg.headers['Zz-Auth'] = `Bearer ${token}`;
   }
   return cfg;
 });

@@ -8,6 +8,12 @@ const routes: RouteRecordRaw[] = [
     redirect: '/home',
   },
   {
+    path: "introduction",
+    name: "foo-introduction",
+    component: () => import("@/pages/IntroductionPrd.vue"),
+    meta: { title: "产品介绍" },
+  },
+  {
     path: '/',
     component: () => import("@/layouts/Layout.vue"),
     children: [
@@ -16,12 +22,6 @@ const routes: RouteRecordRaw[] = [
         name: "foo-home",
         component: () => import("@/pages/Home.vue"),
         meta: { title: "首页" },
-      },
-      {
-        path: "introduction",
-        name: "foo-introduction",
-        component: () => import("@/pages/IntroductionPrd.vue"),
-        meta: { title: "产品介绍" },
       },
       {
         path: "detail/:id",

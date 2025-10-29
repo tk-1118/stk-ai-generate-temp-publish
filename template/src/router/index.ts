@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
     redirect: '/home',
   },
   {
-    path: "introduction",
+    path: "/introduction",
     name: "foo-introduction",
     component: () => import("@/pages/IntroductionPrd.vue"),
     meta: { title: "产品介绍" },
